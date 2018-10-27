@@ -11,6 +11,7 @@ import com.poetical.api.models.User;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     public User findByUsername(String username);
+    public User findByEmail(String email);
     public Page<User> findByIsLogged(boolean isLoggedIn, Pageable pageable);
 
 }

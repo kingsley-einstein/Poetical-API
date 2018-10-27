@@ -38,17 +38,17 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Value("${poetical.resource-id}")
     private String resourceId;
 
-    private final int access_token_validity_seconds = 1 * 60 * 60;
+    private final int access_token_validity_seconds = 90 * 120 * 100;
     
-    private final int refresh_token_validity_seconds = 9 * 60 * 60;
+    private final int refresh_token_validity_seconds = 100 * 120 * 140;
 
     @Override
-    public void configure(ClientDetailsServiceConfigurer cdsc) throws Exception {
-        cdsc
+    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        clients
         .inMemory()
         .withClient(id)
         .secret(encoder.encode(password))
-        .authorizedGrantTypes("password", "authorization_code", "refresh_token", "implicit")
+        .authorizedGrantTypes("password", "authorization_code", "refresh_token", "implicit", "client_credentials")
         .authorities("user", "admin")
         .scopes("read", "write", "trust")
         .resourceIds(resourceId)

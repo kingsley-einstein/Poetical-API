@@ -82,7 +82,7 @@ public class User implements java.io.Serializable {
     private List<Message> sentMessages;
 
     @OneToMany(mappedBy = "recipient")
-    private List<Message> receivedMessage;
+    private List<Message> receivedMessages;
 
     @OneToMany(mappedBy = "author")
     private List<MessageText> composedTexts;
@@ -111,6 +111,10 @@ public class User implements java.io.Serializable {
         this.username = username;
         this.joined = joined;
         this.isLogged = isLogged;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public void setPassword(String password) {
@@ -167,6 +171,42 @@ public class User implements java.io.Serializable {
 
     public List<User> getFriends() {
         return friends;
+    }
+
+    public List<FriendRequest> getSentRequests() {
+        return sentRequests;
+    }
+
+    public List<FriendRequest> getReceivedRequests() {
+        return receivedRequests;
+    }
+
+    public List<Blog> getBlogs() {
+        return blogs;
+    }
+
+    public List<Message> getSentMessages() {
+        return sentMessages;
+    }
+
+    public List<Message> getReceivedMessages() {
+        return receivedMessages;
+    }
+
+    public ProfilePic getProfilePic() {
+        return profilepic;
+    }
+
+    public List<Poem> getPoems() {
+        return poems;
+    }
+
+    public List<Audio> getAudios() {
+        return audios;
+    }
+
+    public String getDateJoined() {
+        return format.format(joined);
     }
     
 } 

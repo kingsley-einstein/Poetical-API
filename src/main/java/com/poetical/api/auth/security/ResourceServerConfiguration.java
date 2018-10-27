@@ -16,8 +16,8 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     private String resourceId;
 
     @Override
-    public void configure(ResourceServerSecurityConfigurer rssc) {
-        rssc
+    public void configure(ResourceServerSecurityConfigurer resources) {
+        resources
         .resourceId(resourceId)
         .stateless(false);
     }
@@ -28,7 +28,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
         .csrf()
         .disable()
         .authorizeRequests()
-        .antMatchers("/api/users/register", "/api/users/login")
+        .antMatchers("/users/register", "/users/all/**")
         .permitAll()
         .anyRequest()
         .authenticated()

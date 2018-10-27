@@ -7,26 +7,20 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import com.poetical.api.models.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+//simport org.springframework.beans.factory.annotation.Value;
 
-@Service(value = "UserService")
+@Service(value = "userService")
 public class AuthUserDetailsService implements UserDetailsService {
 
     @Autowired
     AuthDAO authDAO;
 
-    @Value("${poetical.username}")
-    private String poeticalid;
-
-    @Value("${poetical.password}")
-    private String poeticalpassword;
-
+    @Override
     public Auth2User loadUserByUsername(String username) {
         try {
             User user = authDAO.loadUserByUsername(username);
             Auth2User auth2User = new Auth2User(user);
-            System.out.println(poeticalid+" "+poeticalpassword);
-            System.out.println(auth2User.getPassword());
+            System.out.println("User logged in with authorities --- "+auth2User.getAuthorities());
 
             return auth2User;
         }
