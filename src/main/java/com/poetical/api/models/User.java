@@ -1,0 +1,172 @@
+package com.poetical.api.models;
+
+import javax.persistence.Id;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.GenerationType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
+import javax.persistence.Column;
+import javax.persistence.Transient;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+//import javax.persistence.JoinColumn;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.validation.constraints.NotEmpty;
+
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.ArrayList;
+
+@Entity
+@Table(name = "users")
+public class User implements java.io.Serializable {
+    
+    @Transient
+    private SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    @NotNull
+    @NotEmpty(message = "Email cannot be left empty")
+    @Column(nullable = false, name = "email", unique = true)
+    private String email;
+
+    @Column(nullable = false, name = "hash")
+    private String salt;
+    
+    @NotNull
+    @NotEmpty(message = "Password is required")
+    @Column(nullable = false, name = "password")
+    private String password;
+    
+    @NotNull
+    @NotEmpty(message = "Username is required")
+    @Column(nullable = false, name = "username", unique = true)
+    private String username;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "date_joined", nullable = false)
+    private Date joined;
+
+    @Column(name = "online", nullable = false)
+    private boolean isLogged;
+
+    @OneToOne
+    private ProfilePic profilepic;
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Poem> poems;
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Audio> audios;
+
+    @OneToMany(mappedBy = "author")
+    private List<Blog> blogs;
+
+    @OneToMany(mappedBy = "holder", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Role> roles;
+
+    @OneToMany(mappedBy = "author")
+    private List<Message> sentMessages;
+
+    @OneToMany(mappedBy = "recipient")
+    private List<Message> receivedMessage;
+
+    @OneToMany(mappedBy = "author")
+    private List<MessageText> composedTexts;
+
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL)
+    private User friend;
+
+    @OneToMany(mappedBy = "friend")
+    private List<User> friends = new ArrayList<>();
+
+    @OneToMany(mappedBy = "from")
+    private List<FriendRequest> sentRequests;
+
+    @OneToMany(mappedBy = "recipient")
+    private List<FriendRequest> receivedRequests;
+
+    @Transient
+    private List<GrantedAuthority> grantedAuthorities;
+
+    protected User(){}
+
+    public User(String email, String salt, String username, Date joined, boolean isLogged) {
+        this.email = email;
+        this.salt = salt;
+        this.username = username;
+        this.joined = joined;
+        this.isLogged = isLogged;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+    public void setGrantedAuthoritiesList(List<GrantedAuthority> grantedAuthorities) {
+        this.grantedAuthorities = grantedAuthorities;
+    }
+
+    public List<GrantedAuthority> getGrantedAuthoritiesList() {
+        return grantedAuthorities;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setIsLogged(boolean isLogged) {
+        this.isLogged = isLogged;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public boolean checkPassword(String password) {
+        return password.equals(getPassword());
+    }
+    
+    public void addFriend(User friend) {
+        friends.add(friend);
+    }
+
+    public List<User> getFriends() {
+        return friends;
+    }
+    
+} 

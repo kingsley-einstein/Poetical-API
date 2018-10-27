@@ -1,0 +1,16 @@
+# Environment variables could contain sensitive information and should be ignored by git to prevent accidental commit
+
+/src/main/resources/application.yml 
+
+# Ignore .classpath file
+
+/.classpath
+
+# Ignore target folder which contains jar files
+
+/target
+
+# Ignore other files and folders
+
+/.project
+/.settings
