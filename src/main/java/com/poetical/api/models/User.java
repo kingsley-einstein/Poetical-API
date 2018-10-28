@@ -27,24 +27,31 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.ArrayList;
 
+
+/**
+ * This entity is mapped to the database as a table named 'users'.
+ * Holds the information for a poet.
+ * 
+ * @author Kingsley Victor 
+ */
 @Entity
 @Table(name = "users")
 public class User implements java.io.Serializable {
     
-    @Transient
+    @Transient // => Annotate with @transient to exclude from the table
     private SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id // => Annotate with @id to indicate the id for the row
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // => Use @generatedvalue to indicate an auto_increment field. 
     private Long id;
     
-    @NotNull
-    @NotEmpty(message = "Email cannot be left empty")
-    @Column(nullable = false, name = "email", unique = true)
+    @NotNull // => Is not nullable
+    @NotEmpty(message = "Email cannot be left empty") // => Field cannot be left empty. You can annotate with @NotBlank as an alternative
+    @Column(nullable = false, name = "email", unique = true) // => Set column properties. Is not nullable, is named 'email' and no duplicate field is allowed for another row.
     private String email;
 
     @Column(nullable = false, name = "hash")
-    private String salt;
+    private String salt; // => Salt to generate BCrypt hashsum for password
     
     @NotNull
     @NotEmpty(message = "Password is required")
@@ -56,17 +63,17 @@ public class User implements java.io.Serializable {
     @Column(nullable = false, name = "username", unique = true)
     private String username;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.TIMESTAMP) // => It is conventional to annotate with @temporal to indicate a timestamp. 
     @Column(name = "date_joined", nullable = false)
     private Date joined;
 
     @Column(name = "online", nullable = false)
     private boolean isLogged;
 
-    @OneToOne
+    @OneToOne // => Indicates a One-To-One relationship
     private ProfilePic profilepic;
 
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true) // => Indicates a One-To-Many relationship and is mapped to a column named 'author' 
     private List<Poem> poems;
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
