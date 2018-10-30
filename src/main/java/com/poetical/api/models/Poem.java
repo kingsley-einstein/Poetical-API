@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Column;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
 import javax.persistence.Transient;
 import javax.persistence.Temporal;
@@ -16,6 +17,7 @@ import javax.validation.constraints.NotEmpty;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Date;
+import java.util.List;
 import java.text.SimpleDateFormat;
 
 @Entity
@@ -46,6 +48,9 @@ public class Poem implements java.io.Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created", nullable = false)
     private Date created;
+
+    @OneToMany(mappedBy = "poemLiked")
+    private List<Like> likes;
 
     protected Poem(){}
 
@@ -78,6 +83,10 @@ public class Poem implements java.io.Serializable {
 
     public String getDateCreated() {
         return format.format(created);
+    }
+
+    public Integer getLikes() {
+        return likes.size();
     }
 
 }

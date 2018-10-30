@@ -45,4 +45,8 @@ public class Message implements java.io.Serializable {
     public void setIsRead(boolean isRead) {
         this.isRead = isRead;
     }
+
+    public boolean getIsRead() {
+        return isRead;
+    }
 }

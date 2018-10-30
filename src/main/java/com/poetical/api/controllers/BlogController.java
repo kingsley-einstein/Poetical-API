@@ -44,4 +44,24 @@ public class BlogController {
     public Blog createBlog(@RequestParam("user_id") Long id, @RequestBody Map<String, String> body) {
         return blogRepo.save(new Blog(body.get("title"), body.get("content"), userRepo.findById(id).get()));
     }
+
+    @DeleteMapping(value = "delete")
+    public void deleteBlog(@RequestParam("blog_id") Long id) {
+        Blog blog = blogRepo.findById(id)
+                    .orElseThrow(() -> new NotFoundException("Blog with specified id not found"));
+
+        blogRepo.delete(blog);
+    }
+
+    @PutMapping(value = "update") 
+    @ResponseBody
+    public Blog editBlog(@RequestParam("blog_id") Long id, @RequestBody Map<String, String> body) {
+        Blog blog = blogRepo.findById(id)
+                    .orElseThrow(() -> new NotFoundException("Blog with specified id not found"));
+
+        blog.setTitle(body.get("title"));
+        blog.setContent(body.get("content"));
+
+        return blogRepo.save(blog);
+    }
 }

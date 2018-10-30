@@ -63,7 +63,7 @@ public class Audio implements java.io.Serializable {
         return data;
     }
 
-    public String getCreatedAsFormat() {
+    public String getCreatedDate() {
         return format.format(created);
     }
 

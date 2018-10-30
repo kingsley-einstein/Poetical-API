@@ -41,6 +41,9 @@ public class User implements java.io.Serializable {
     @Transient // => Annotate with @transient to exclude from the table
     private SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
 
+    @Transient
+    private Integer unreadMessages = 0;
+
     @Id // => Annotate with @id to indicate the id for the row
     @GeneratedValue(strategy = GenerationType.IDENTITY) // => Use @generatedvalue to indicate an auto_increment field. 
     private Long id;
@@ -215,5 +218,21 @@ public class User implements java.io.Serializable {
     public String getDateJoined() {
         return format.format(joined);
     }
-    
+
+    public Integer getUnreadMessages() {
+        receivedMessages
+        .stream()
+        .forEach((received)-> {
+            if (!(received.getIsRead())) {
+                unreadMessages++;
+            }
+        });
+
+        return unreadMessages;
+    }
+
+    public Integer getReceivedRequestsSize() {
+        return receivedRequests.size();
+    }
+
 } 
