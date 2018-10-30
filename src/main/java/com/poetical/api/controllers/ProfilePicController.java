@@ -7,17 +7,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.poetical.api.exceptions.NotFoundException;
 import com.poetical.api.models.ProfilePic;
 import com.poetical.api.repositories.ProfilePicRepository;
 import com.poetical.api.repositories.UserRepository;
 
-import java.util.Map;
-import java.util.Date;
 import java.io.IOException;
 
 @RestController
@@ -52,6 +49,18 @@ public class ProfilePicController {
 
         return "Picture updated successfully";
     } 
+
+    @DeleteMapping(value = "/delete")
+    @ResponseBody
+    public String deletePic(@RequestParam("pic_id") Long id) {
+        ProfilePic pic = picRepo
+                         .findById(id)
+                         .orElseThrow(() -> new NotFoundException("Profile pic not found"));
+
+        picRepo.delete(pic);
+
+        return "Picture successfully deleted";
+    }
 
     
 
