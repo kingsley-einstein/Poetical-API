@@ -42,7 +42,7 @@ public class ProfilePicController {
 
     @PutMapping(value = "/update")
     @ResponseBody
-    public String editPic(@RequestParam("user_id") Long id, @RequestParam("pic_id") Long pic_id, @RequestParam("newfile") MultipartFile file) throws IOException {
+    public String editPic(@RequestParam("user_id") Long id, @RequestParam("newfile") MultipartFile file) throws IOException {
         ProfilePic pic = picRepo.findByOwner(userRepo.findById(id).get());
 
         pic.setData(file.getBytes());
