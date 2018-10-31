@@ -8,15 +8,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.Column;
 import javax.persistence.Transient;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-//import javax.persistence.JoinColumn;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+//import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -73,8 +75,8 @@ public class User implements java.io.Serializable {
     @Column(name = "online", nullable = false)
     private boolean isLogged;
 
-    @OneToOne // => Indicates a One-To-One relationship
-    private ProfilePic profilepic;
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "owner") // => Indicates a One-To-One relationship
+    private ProfilePic profilePic;
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true) // => Indicates a One-To-Many relationship and is mapped to a column named 'author' 
     private List<Poem> poems;
@@ -97,11 +99,12 @@ public class User implements java.io.Serializable {
     @OneToMany(mappedBy = "author")
     private List<MessageText> composedTexts;
 
-    @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL)
-    private User friend;
+    
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "friends")
+    private List<User> users = new ArrayList<>();
 
-    @OneToMany(mappedBy = "friend")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "users_friends", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "friend_id")})
     private List<User> friends = new ArrayList<>();
 
     @OneToMany(mappedBy = "from")
@@ -204,7 +207,7 @@ public class User implements java.io.Serializable {
     }
 
     public ProfilePic getProfilePic() {
-        return profilepic;
+        return profilePic;
     }
 
     public List<Poem> getPoems() {
@@ -220,19 +223,21 @@ public class User implements java.io.Serializable {
     }
 
     public Integer getUnreadMessages() {
-        receivedMessages
-        .stream()
-        .forEach((received)-> {
+        if (receivedMessages != null && receivedMessages.size() > 0) {
+            receivedMessages
+            .stream()
+            .forEach((received)-> {
             if (!(received.getIsRead())) {
                 unreadMessages++;
             }
         });
+        }
 
         return unreadMessages;
     }
 
     public Integer getReceivedRequestsSize() {
-        return receivedRequests.size();
+        return receivedRequests != null ? receivedRequests.size() : 0;
     }
 
 } 

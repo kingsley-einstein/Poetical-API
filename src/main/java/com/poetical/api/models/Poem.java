@@ -86,7 +86,7 @@ public class Poem implements java.io.Serializable {
     }
 
     public Integer getLikes() {
-        return likes.size();
+        return likes != null ? likes.size() : 0;
     }
 
 }

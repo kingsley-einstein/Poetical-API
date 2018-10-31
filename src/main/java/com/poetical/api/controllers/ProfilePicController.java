@@ -30,7 +30,8 @@ public class ProfilePicController {
     @PostMapping(value = "/new_picture")
     @ResponseBody
     public String uploadPic(@RequestParam("user_id") Long id, @RequestParam("picture") MultipartFile pic) throws IOException {
-        ProfilePic profilepic = new ProfilePic(pic.getBytes(), pic.getContentType(), userRepo.findById(id).get());
+        ProfilePic profilepic = new ProfilePic(pic.getBytes(), pic.getContentType());
+        profilepic.setOwner(userRepo.findById(id).get());
 
         picRepo.save(profilepic);
 

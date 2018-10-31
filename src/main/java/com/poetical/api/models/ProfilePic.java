@@ -8,6 +8,9 @@ import javax.persistence.Column;
 import javax.persistence.OneToOne;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.FetchType;
+import javax.persistence.CascadeType;
+import javax.persistence.JoinColumn;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -26,19 +29,23 @@ public class ProfilePic implements java.io.Serializable {
     private String mimeType;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "profilepic")
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "owner_id")
     private User owner;
 
     protected ProfilePic(){}
 
-    public ProfilePic(byte[] data, String mimeType, User owner) {
+    public ProfilePic(byte[] data, String mimeType) {
         this.data = data;
         this.mimeType = mimeType;
-        this.owner = owner;
     }
 
     public void setData(byte[] data) {
         this.data = data;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 
     public byte[] getData() {
@@ -55,5 +62,9 @@ public class ProfilePic implements java.io.Serializable {
 
     public User getOwner() {
         return owner;
+    }
+
+    public Long getId() {
+        return id;
     }
 }
