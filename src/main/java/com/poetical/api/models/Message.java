@@ -49,4 +49,12 @@ public class Message implements java.io.Serializable {
     public boolean getIsRead() {
         return isRead;
     }
+
+    public List<MessageText> getMessageTexts() {
+        return messageTexts;
+    }
+
+    public Long getId() {
+        return id;
+    }
 }

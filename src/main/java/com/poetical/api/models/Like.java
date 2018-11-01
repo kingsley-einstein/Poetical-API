@@ -31,4 +31,8 @@ public class Like implements java.io.Serializable {
         this.likedBy = likedBy;
         this.poemLiked = poemLiked;
     }
+
+    public Long getId() {
+        return id;
+    }
 }

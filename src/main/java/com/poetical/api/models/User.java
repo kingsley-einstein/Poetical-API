@@ -113,6 +113,9 @@ public class User implements java.io.Serializable {
     @OneToMany(mappedBy = "recipient")
     private List<FriendRequest> receivedRequests;
 
+    @OneToMany(mappedBy = "likedBy")
+    private List<Like> likesGiven;
+
     @Transient
     private List<GrantedAuthority> grantedAuthorities;
 
