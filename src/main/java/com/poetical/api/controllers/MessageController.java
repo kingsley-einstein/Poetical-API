@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+//import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -69,5 +69,10 @@ public class MessageController {
         messageRepo.delete(messageRepo.findById(id).get());
 
         return messageRepo.findByAuthor(userRepo.findById(author_id).get(), PageRequest.of(page, 25));
+    }
+
+    @DeleteMapping(value = "/delete_all")
+    public void deleteAllMessagesByUser(@RequestParam("author") Long id) {
+        messageRepo.deleteByAuthor(userRepo.findById(id).get());
     }
 }

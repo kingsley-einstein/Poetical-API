@@ -8,6 +8,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.CascadeType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class Message implements java.io.Serializable {
     @Column(name = "isread", nullable = false)
     private boolean isRead;
 
-    @OneToMany(mappedBy = "message")
+    @OneToMany(mappedBy = "message", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<MessageText> messageTexts;
 
     @JsonIgnore

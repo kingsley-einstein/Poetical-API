@@ -49,7 +49,7 @@ public class Poem implements java.io.Serializable {
     @Column(name = "created", nullable = false)
     private Date created;
 
-    @OneToMany(mappedBy = "poemLiked")
+    @OneToMany(mappedBy = "poemLiked", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Like> likes;
 
     protected Poem(){}

@@ -111,4 +111,9 @@ public class UserController {
         return String.format("Password updated for user %s", user.getUsername());
     }
 
+    @DeleteMapping(value = "/delete/{id}")
+    public void deleteUser(@PathVariable("id") Long id) {
+        repo.deleteById(id);
+    }
+
 }
