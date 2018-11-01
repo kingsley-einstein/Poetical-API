@@ -41,7 +41,7 @@ public class FriendController {
         fReqRepo.delete(fReqRepo.findById(request_id).get());
     }
 
-    @GetMapping(value = "/reject")
+    @DeleteMapping(value = "/reject")
     public void rejectRequest(@RequestParam("request_id") Long id) {
         fReqRepo.deleteById(id);
     }
