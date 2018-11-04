@@ -52,6 +52,9 @@ public class Poem implements java.io.Serializable {
     @OneToMany(mappedBy = "poemLiked", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Like> likes;
 
+    @OneToMany(mappedBy = "poem", orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<Comment> comments;
+
     protected Poem(){}
 
     public Poem(String title, String content, User author, Date created) {
@@ -87,6 +90,10 @@ public class Poem implements java.io.Serializable {
 
     public Integer getLikes() {
         return likes != null ? likes.size() : 0;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
     }
 
 }

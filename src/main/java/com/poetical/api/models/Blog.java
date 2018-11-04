@@ -2,14 +2,18 @@ package com.poetical.api.models;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.List;
 
 @Entity
 @Table(name = "blogs")
@@ -30,6 +34,9 @@ public class Blog implements java.io.Serializable {
     @JsonIgnore
     @ManyToOne(optional = false)
     private User author;
+
+    @OneToMany(mappedBy = "blog", orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<Comment> comments;
 
     protected Blog(){}
 
@@ -57,5 +64,9 @@ public class Blog implements java.io.Serializable {
 
     public User getAuthor() {
         return author;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
     }
 }
