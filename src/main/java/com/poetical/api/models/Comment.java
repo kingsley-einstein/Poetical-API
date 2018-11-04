@@ -8,6 +8,8 @@ import javax.persistence.Table;
 import javax.persistence.ManyToOne;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -18,6 +20,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @ManyToOne(cascade = CascadeType.ALL)
     private User author;
 
@@ -29,6 +32,8 @@ public class Comment {
     @ManyToOne(cascade = CascadeType.ALL)
     private Poem poem;
 
+    @NotNull
+    @NotEmpty(message = "You cannot enter an empty comment")
     @Column(name = "content", columnDefinition="TEXT")
     private String content;
 

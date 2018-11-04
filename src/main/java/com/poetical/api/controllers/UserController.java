@@ -23,6 +23,7 @@ import com.poetical.api.models.Role;
 import com.poetical.api.auth.AuthUserDetailsService;
 import com.poetical.api.exceptions.IncorrectPasswordException;
 import com.poetical.api.exceptions.NotFoundException;
+import com.poetical.api.exceptions.AlreadyExistingUserException;
 
 import java.util.Date;
 import java.util.Map;
@@ -53,10 +54,15 @@ public class UserController {
     public User createUser(@RequestBody Map<String, String> body) {
         User user = new User(body.get("email"), BCrypt.gensalt(16), body.get("username"), new Date(), true);
         user.setPassword(BCrypt.hashpw(body.get("password"), user.getSalt()));
-        User newUser = repo.save(user);
-        roleRepo.save(new Role("user", newUser));
+        if (repo.findByUsername(user.getUsername()) == null) {
+            User newUser = repo.save(user);
+            roleRepo.save(new Role("user", newUser));
 
-        return newUser;
+            return newUser;
+        }
+        else {
+            throw new AlreadyExistingUserException(String.format("User with username %s exists", body.get("username")));
+        }
     }
 
     @PostMapping(value = "/login")
@@ -114,6 +120,11 @@ public class UserController {
     @DeleteMapping(value = "/delete/{id}")
     public void deleteUser(@PathVariable("id") Long id) {
         repo.deleteById(id);
+    }
+
+    @PutMapping(value = "/logout/{id}")
+    public void logUserOut(@PathVariable("id") Long id) {
+
     }
 
 }
