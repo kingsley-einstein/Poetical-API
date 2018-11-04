@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Page;
 import com.poetical.api.models.Poem;
+import com.poetical.api.models.Like;
 import com.poetical.api.repositories.PoemRepository;
+import com.poetical.api.repositories.LikeRepository;
 import com.poetical.api.repositories.UserRepository;
 import com.poetical.api.exceptions.NotFoundException;
 
@@ -30,6 +32,9 @@ public class PoemController {
 
     @Autowired
     private UserRepository userRepo;
+
+    @Autowired
+    private LikeRepository likeRepo;
 
     @GetMapping(value = "/all/{page}")
     @ResponseBody
@@ -84,5 +89,12 @@ public class PoemController {
         Page<Poem> poems = poemRepo.findByAuthor(userRepo.findByUsername(author), PageRequest.of(page, 15));
 
         return poems;
+    }
+
+    @GetMapping(value = "/{id}/like")
+    public void likePoem(@PathVariable("id") Long id, @RequestParam("user_id") Long user_id) {
+        Like like = new Like(userRepo.findById(user_id).get(), poemRepo.findById(id).get());
+
+        likeRepo.save(like);
     }
 }

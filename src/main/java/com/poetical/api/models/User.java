@@ -18,6 +18,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 //import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.validation.constraints.NotEmpty;
@@ -115,6 +117,11 @@ public class User implements java.io.Serializable {
 
     @OneToMany(mappedBy = "likedBy")
     private List<Like> likesGiven;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "author")
+    private List<Comment> comments;
+
 
     @Transient
     private List<GrantedAuthority> grantedAuthorities;
@@ -241,6 +248,10 @@ public class User implements java.io.Serializable {
 
     public Integer getReceivedRequestsSize() {
         return receivedRequests != null ? receivedRequests.size() : 0;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
     }
 
 } 
