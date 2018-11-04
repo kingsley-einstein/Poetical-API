@@ -73,7 +73,8 @@ public class UserController {
         if (user != null) {
             if (user.checkPassword(BCrypt.hashpw(body.get("password"), user.getSalt()))) {
                 authUserDetailsService.loadUserByUsername(user.getUsername());
-                return user;
+                user.setIsLogged(true);
+                return repo.save(user);
             }
             else {
                 throw new IncorrectPasswordException("Incorrect Password");
@@ -124,7 +125,10 @@ public class UserController {
 
     @PutMapping(value = "/logout/{id}")
     public void logUserOut(@PathVariable("id") Long id) {
+        User user = repo.findById(id).get();
+        user.setIsLogged(false);
 
+        repo.save(user);
     }
 
 }
