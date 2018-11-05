@@ -95,7 +95,7 @@ public class User implements java.io.Serializable {
     @OneToMany(mappedBy = "author")
     private List<Message> sentMessages;
 
-    @OneToMany(mappedBy = "recipient")
+    @OneToMany(mappedBy = "recepient")
     private List<Message> receivedMessages;
 
     @OneToMany(mappedBy = "author")
@@ -112,7 +112,7 @@ public class User implements java.io.Serializable {
     @OneToMany(mappedBy = "from")
     private List<FriendRequest> sentRequests;
 
-    @OneToMany(mappedBy = "recipient")
+    @OneToMany(mappedBy = "recepient")
     private List<FriendRequest> receivedRequests;
 
     @OneToMany(mappedBy = "likedBy")
@@ -237,7 +237,7 @@ public class User implements java.io.Serializable {
             receivedMessages
             .stream()
             .forEach((received)-> {
-            if (!(received.getIsRead())) {
+            if (!(received.getIsRead()) && !received.getMessageTexts().get(received.getMessageTexts().size() - 1).getAuthor().equals(getUsername())) {
                 unreadMessages++;
             }
         });

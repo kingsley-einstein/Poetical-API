@@ -11,6 +11,6 @@ import com.poetical.api.models.User;
 @Repository
 public interface FriendRequestRepository extends JpaRepository<FriendRequest, Long> {
 
-    Page<FriendRequest> findByRecipient(User recipient, Pageable pageable);
+    Page<FriendRequest> findByRecepient(User recipient, Pageable pageable);
     Page<FriendRequest> findByFrom(User from, Pageable pageable);
 }

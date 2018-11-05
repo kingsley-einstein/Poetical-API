@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.CascadeType;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+//import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.List;
 
@@ -27,20 +27,18 @@ public class Message implements java.io.Serializable {
     @OneToMany(mappedBy = "message", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<MessageText> messageTexts;
 
-    @JsonIgnore
     @ManyToOne
     private User author;
 
-    @JsonIgnore
     @ManyToOne
-    private User recipient;
+    private User recepient;
 
     protected Message(){}
 
-    public Message(boolean isRead, User author, User recipient) {
+    public Message(boolean isRead, User author, User recepient) {
         this.isRead = isRead;
         this.author = author;
-        this.recipient = recipient;
+        this.recepient = recepient;
     }
 
     public void setIsRead(boolean isRead) {
@@ -57,5 +55,13 @@ public class Message implements java.io.Serializable {
 
     public Long getId() {
         return id;
+    }
+
+    public String getAuthor() {
+        return author.getUsername();
+    }
+
+    public String getRecepient() {
+        return recepient.getUsername();
     }
 }

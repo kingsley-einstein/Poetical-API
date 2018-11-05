@@ -26,7 +26,6 @@ public class MessageText implements java.io.Serializable {
     @ManyToOne
     private Message message;
 
-    @JsonIgnore
     @ManyToOne
     private User author;
 
@@ -46,8 +45,8 @@ public class MessageText implements java.io.Serializable {
         return message;
     }
 
-    public User getAuthor() {
-        return author;
+    public String getAuthor() {
+        return author.getUsername();
     }
 
 }

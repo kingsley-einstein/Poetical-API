@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-//import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -45,8 +45,8 @@ public class MessageController {
 
     @PostMapping(value = "/create")
     @ResponseBody
-    public Message createMessage(@RequestParam("author") String author_username, @RequestParam("recipient") String recipient_username, @RequestBody Map<String, String> body) {
-        Message message = new Message(false, userRepo.findByUsername(author_username), userRepo.findByUsername(recipient_username));
+    public Message createMessage(@RequestParam("author") String author_username, @RequestParam("recepient") String recepient_username, @RequestBody Map<String, String> body) {
+        Message message = new Message(false, userRepo.findByUsername(author_username), userRepo.findByUsername(recepient_username));
         Message createdMessage = messageRepo.save(message);
         MessageText text = new MessageText(body.get("text"), createdMessage, userRepo.findByUsername(author_username));
         messageTextRepo.save(text);
@@ -58,7 +58,10 @@ public class MessageController {
     @ResponseBody
     public Page<MessageText> sendAText(@RequestParam("author") String author_username, @RequestParam("message") Long message_id, @RequestParam("page") Integer page, @RequestBody Map<String, String> body) {
         MessageText messageText = new MessageText(body.get("text"), messageRepo.findById(message_id).get(), userRepo.findByUsername(author_username));
+        Message message = messageRepo.findById(message_id).get();
+        message.setIsRead(true);
         messageTextRepo.save(messageText);
+        messageRepo.save(message);
 
         return messageTextRepo.findByMessage(messageRepo.findById(message_id).get(), PageRequest.of(page, 10));
     }
@@ -74,5 +77,14 @@ public class MessageController {
     @DeleteMapping(value = "/delete_all")
     public void deleteAllMessagesByUser(@RequestParam("author") Long id) {
         messageRepo.deleteByAuthor(userRepo.findById(id).get());
+    }
+
+    @PutMapping(value = "/read/{id}")
+    public void readMessage(@PathVariable("id") Long id) {
+        Message message = messageRepo.findById(id).get();
+
+        message.setIsRead(true);
+
+        messageRepo.save(message);
     }
 }

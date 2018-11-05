@@ -80,8 +80,8 @@ public class Poem implements java.io.Serializable {
         return content;
     }
 
-    public User getAuthor() {
-        return author;
+    public String getAuthor() {
+        return author.getUsername();
     }
 
     public String getDateCreated() {
