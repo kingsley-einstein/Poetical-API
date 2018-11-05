@@ -4,7 +4,8 @@ server:
 spring:
     datasource:
         url: ${CUSTOM_DB}
-        driverClassName: org.postgresql.Driver
+        username: ${CUSTOM_USER}
+        password: ${CUSTOM_PASSWORD}
     jpa:
         properties:
             hibernate:
