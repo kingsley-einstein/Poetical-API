@@ -22,6 +22,7 @@ public class InterceptorsRegistry implements WebMvcConfigurer {
         registry
         .addMapping("*")
         .allowedOrigins("*")
+        .allowedHeaders("Content-Type", "Accept", "Accept-Language", "Content-Language")
         .allowedMethods("GET", "POST", "DELETE", "PUT", "OPTIONS");
     }
 }
