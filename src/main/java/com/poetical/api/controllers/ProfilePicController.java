@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.poetical.api.exceptions.InvalidMimeTypeException;
 import com.poetical.api.exceptions.NotFoundException;
 import com.poetical.api.models.ProfilePic;
 import com.poetical.api.repositories.ProfilePicRepository;
@@ -33,9 +34,14 @@ public class ProfilePicController {
         ProfilePic profilepic = new ProfilePic(pic.getBytes(), pic.getContentType());
         profilepic.setOwner(userRepo.findById(id).get());
 
-        picRepo.save(profilepic);
+        if (profilepic.getMimeType().contains("image")) {
+            picRepo.save(profilepic);
 
-        return "Picture successfully uploaded";
+             return "Picture successfully uploaded";
+        }
+        else {
+            throw new InvalidMimeTypeException(String.format("Expected an image file but found %s", pic.getContentType()));
+        }
     }
 
     @PutMapping(value = "/update")
