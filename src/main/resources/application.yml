@@ -6,6 +6,7 @@ spring:
         url: ${CUSTOM_DB}
         username: ${CUSTOM_USER}
         password: ${CUSTOM_PASSWORD}
+        driverClassName: com.mysql.jdbc.Driver
     jpa:
         properties:
             hibernate:
