@@ -25,7 +25,7 @@ public class Filters implements Filter {
 
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-        response.addHeader("Access-Control-Allow-Headers", "Content-Type, Accept, Accept-Language, Content-Language, Authorization");
+        response.addHeader("Access-Control-Allow-Headers", "Content-Type, Accept, Accept-Language, Content-Language");
 
         if (request.getMethod().equalsIgnoreCase("OPTIONS")) {
             response.setStatus(HttpServletResponse.SC_OK);
