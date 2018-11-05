@@ -1,12 +1,6 @@
-# Ignore .classpath file
-
 /.classpath
-
-# Ignore target folder which contains jar files
-
-/target
-
-# Ignore other files and folders
 
 /.project
 /.settings
+
+/src/main/resources/application.yml
