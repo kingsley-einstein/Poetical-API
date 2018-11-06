@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpMethod;
 
 @Configuration
 @EnableResourceServer
@@ -29,6 +30,8 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
         .disable()
         .authorizeRequests()
         .antMatchers("/users/register", "/users/all/**")
+        .permitAll()
+        .antMatchers(HttpMethod.OPTIONS, "/oauth/token")
         .permitAll()
         .anyRequest()
         .authenticated()
