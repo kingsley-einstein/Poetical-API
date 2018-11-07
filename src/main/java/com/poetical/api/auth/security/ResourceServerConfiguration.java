@@ -29,7 +29,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
         .csrf()
         .disable()
         .authorizeRequests()
-        .antMatchers("/users/register", "/users/all/**")
+        .antMatchers("/users/register", "/users/all/**", "/users/change_password")
         .permitAll()
         .antMatchers(HttpMethod.OPTIONS, "/oauth/token")
         .permitAll()
