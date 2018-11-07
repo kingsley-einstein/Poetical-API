@@ -106,16 +106,19 @@ public class UserController {
 
     @PutMapping(value = "/change_password")
     @ResponseBody
-    public String changePassword(@RequestParam("id") Long id, @RequestBody Map<String, String> body) {
-        User user = repo
-                    .findById(id)
-                    .orElseThrow(() -> new NotFoundException("User with given id not found"));
+    public String changePassword(@RequestParam("email") String email, @RequestBody Map<String, String> body) {
+        User user = repo.findByEmail(email);
                 
-        user.setSalt(BCrypt.gensalt(16));
-        user.setPassword(BCrypt.hashpw(body.get("password"), user.getSalt()));
-        repo.save(user);
+        if (user != null) {
+            user.setSalt(BCrypt.gensalt(16));
+            user.setPassword(BCrypt.hashpw(body.get("password"), user.getSalt()));
+            repo.save(user);
 
-        return String.format("Password updated for user %s", user.getUsername());
+            return String.format("Password updated for user %s", user.getUsername());
+        }
+        else {
+            throw new NotFoundException("User with given email not found");
+        }
     }
 
     @DeleteMapping(value = "/delete/{id}")
