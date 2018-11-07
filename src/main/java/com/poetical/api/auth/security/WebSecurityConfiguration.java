@@ -30,6 +30,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Qualifier("userService")
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private WebSecurity webSecurity;
+
     @Bean
     public BCryptPasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
@@ -38,6 +41,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public TokenStore tokenStore() {
         return new InMemoryTokenStore();
+    }
+
+    @Bean
+    public WebSecurity webSecurity() {
+        return webSecurity;
     }
 
     @Override
