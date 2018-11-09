@@ -52,7 +52,7 @@ public class UserController {
     @PostMapping(value = "/register")
     @ResponseBody
     public User createUser(@RequestBody Map<String, String> body) {
-        User user = new User(body.get("email"), BCrypt.gensalt(16), body.get("username"), new Date(), true);
+        User user = new User(body.get("email"), BCrypt.gensalt(16), body.get("username"), body.get("gender"), new Date(), true);
         user.setPassword(BCrypt.hashpw(body.get("password"), user.getSalt()));
         if (repo.findByUsername(user.getUsername()) == null) {
             User newUser = repo.save(user);

@@ -70,6 +70,10 @@ public class User implements java.io.Serializable {
     @Column(nullable = false, name = "username", unique = true)
     private String username;
 
+    @NotNull
+    @Column(nullable = false, name="gender")
+    private String gender;
+
     @Temporal(TemporalType.TIMESTAMP) // => It is conventional to annotate with @temporal to indicate a timestamp. 
     @Column(name = "date_joined", nullable = false)
     private Date joined;
@@ -128,10 +132,11 @@ public class User implements java.io.Serializable {
 
     protected User(){}
 
-    public User(String email, String salt, String username, Date joined, boolean isLogged) {
+    public User(String email, String salt, String username, String gender, Date joined, boolean isLogged) {
         this.email = email;
         this.salt = salt;
         this.username = username;
+        this.gender = gender;
         this.joined = joined;
         this.isLogged = isLogged;
     }
@@ -146,6 +151,10 @@ public class User implements java.io.Serializable {
 
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    public char getGender() {
+        return gender.trim().charAt(0);
     }
 
     public void setGrantedAuthoritiesList(List<GrantedAuthority> grantedAuthorities) {
