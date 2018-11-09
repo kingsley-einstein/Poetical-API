@@ -71,6 +71,7 @@ public class User implements java.io.Serializable {
     private String username;
 
     @NotNull
+    @NotEmpty(message = "Gender is required")
     @Column(nullable = false, name="gender")
     private String gender;
 
