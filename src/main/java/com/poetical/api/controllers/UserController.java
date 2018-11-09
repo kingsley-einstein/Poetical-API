@@ -44,9 +44,16 @@ public class UserController {
 
     @GetMapping(value = "/all/{page}")
     @ResponseBody
-    public Page<User> getUsers(@PathVariable(name = "page") Integer page) {
+    public Page<User> getUsers(@PathVariable("page") Integer page) {
         Pageable pageable = PageRequest.of(page, 25);
         return repo.findAll(pageable);
+    }
+
+    @GetMapping(value = "/{id}")
+    @ResponseBody
+    public User getUser(@PathVariable("id") Long id) {
+        return repo.findById(id)
+                   .orElseThrow(() -> new NotFoundException("User with given id not found"));
     }
 
     @PostMapping(value = "/register")
