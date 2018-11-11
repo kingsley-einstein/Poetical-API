@@ -39,7 +39,7 @@ public class PoemController {
     @GetMapping(value = "/all/{page}")
     @ResponseBody
     public Page<Poem> getPoems(@PathVariable("page") Integer page) {
-        return poemRepo.findAll(PageRequest.of(page, 25));
+        return poemRepo.findAll(PageRequest.of(page, 12));
     }
 
     @PostMapping(value = "/create")

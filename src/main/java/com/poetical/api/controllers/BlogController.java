@@ -34,7 +34,7 @@ public class BlogController {
     @GetMapping(value = "/all/{page}")
     @ResponseBody
     public Page<Blog> getBlogs(@PathVariable("page") Integer page) {
-        Page<Blog> blogs = blogRepo.findAll(PageRequest.of(page, 25));
+        Page<Blog> blogs = blogRepo.findAll(PageRequest.of(page, 12));
 
         return blogs;
     }

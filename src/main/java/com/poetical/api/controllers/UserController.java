@@ -45,7 +45,7 @@ public class UserController {
     @GetMapping(value = "/all/{page}")
     @ResponseBody
     public Page<User> getUsers(@PathVariable("page") Integer page) {
-        Pageable pageable = PageRequest.of(page, 25);
+        Pageable pageable = PageRequest.of(page, 12);
         return repo.findAll(pageable);
     }
 

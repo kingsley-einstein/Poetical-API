@@ -31,30 +31,35 @@ public class ProfilePicController {
     @PostMapping(value = "/new_picture")
     @ResponseBody
     public String uploadPic(@RequestParam("user_id") Long id, @RequestParam("picture") MultipartFile pic) throws IOException {
-        ProfilePic profilepic = new ProfilePic(pic.getBytes(), pic.getContentType());
-        profilepic.setOwner(userRepo.findById(id).get());
+        ProfilePic profilePic = picRepo.findByOwner(userRepo.findById(id).get());
 
-        if (profilepic.getMimeType().contains("image")) {
-            picRepo.save(profilepic);
+        if (profilePic == null) {
+            profilePic = new ProfilePic(pic.getBytes(), pic.getContentType());
+            profilePic.setOwner(userRepo.findById(id).get());
+
+        if (profilePic.getMimeType().contains("image")) {
+            picRepo.save(profilePic);
 
              return "Picture successfully uploaded";
         }
         else {
             throw new InvalidMimeTypeException(String.format("Expected an image file but found %s", pic.getContentType()));
         }
-    }
+        } 
+        else {
+            profilePic.setData(pic.getBytes());
+            profilePic.setMimeType(pic.getContentType());
 
-    @PutMapping(value = "/update")
-    @ResponseBody
-    public String editPic(@RequestParam("user_id") Long id, @RequestParam("newfile") MultipartFile file) throws IOException {
-        ProfilePic pic = picRepo.findByOwner(userRepo.findById(id).get());
+            if (profilePic.getMimeType().contains("image")) {
+                picRepo.save(profilePic);
 
-        pic.setData(file.getBytes());
-        pic.setMimeType(file.getContentType());
+                return "Picture successfully uploaded";
+            }
 
-        picRepo.save(pic);
-
-        return "Picture updated successfully";
+            else {
+                throw new InvalidMimeTypeException(String.format("Expected an image file but found %s", pic.getContentType())); 
+            }
+        }
     } 
 
     @DeleteMapping(value = "/delete")
