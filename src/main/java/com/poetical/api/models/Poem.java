@@ -41,7 +41,6 @@ public class Poem implements java.io.Serializable {
     @Column(name = "content", columnDefinition = "TEXT", length = 6000)
     private String content;
 
-    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     private User author;
 
@@ -94,6 +93,10 @@ public class Poem implements java.io.Serializable {
 
     public List<Comment> getComments() {
         return comments;
+    }
+
+    public Long getId() {
+        return id;
     }
 
 }
