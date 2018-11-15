@@ -37,7 +37,15 @@ public class AudioController {
     @GetMapping(value = "/all/{page}")
     @ResponseBody
     public Page<Audio> getAllAudios(@PathVariable("page") Integer page) {
-        Page<Audio> audios = audioRepo.findAll(PageRequest.of(page, 25));
+        Page<Audio> audios = audioRepo.findAll(PageRequest.of(page, 12));
+
+        return audios;
+    }
+
+    @GetMapping(value = "personal/all/{page}")
+    @ResponseBody
+    public Page<Audio> getAllAudiosByUser(@PathVariable("page") Integer page, @RequestParam("user_id") Long id) {
+        Page<Audio> audios = audioRepo.findAllByAuthor(userRepo.findById(id).get(), PageRequest.of(page, 12));
 
         return audios;
     }

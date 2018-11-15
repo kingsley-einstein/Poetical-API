@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
-//import org.springframework.data.domain.Page;
-//import org.springframework.data.domain.PageRequest;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.poetical.api.models.FriendRequest;
@@ -44,6 +46,14 @@ public class FriendController {
     @DeleteMapping(value = "/reject")
     public void rejectRequest(@RequestParam("request_id") Long id) {
         fReqRepo.deleteById(id);
+    }
+
+    @GetMapping(value = "/frequests/{page}")
+    @ResponseBody
+    public Page<FriendRequest> getAllRequestsByRecepient(@PathVariable("page") Integer page, @RequestParam("user_id") Long id) {
+        Page<FriendRequest> requests = fReqRepo.findByRecepient(userRepo.findById(id).get(), PageRequest.of(page, 25));
+
+        return requests;
     }
 
 }

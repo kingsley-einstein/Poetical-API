@@ -43,6 +43,14 @@ public class MessageController {
         return messages;
     }
 
+    @GetMapping(value = "/received/{page}")
+    @ResponseBody
+    public Page<Message> getAllMessagesByReception(@PathVariable("page") Integer page, @RequestParam("recepient") Long id) {
+        Page<Message> messages = messageRepo.findByRecipient(userRepo.findById(id).get(), PageRequest.of(page, 25));
+
+        return messages;
+    }
+
     @PostMapping(value = "/create")
     @ResponseBody
     public Message createMessage(@RequestParam("author") String author_username, @RequestParam("recepient") String recepient_username, @RequestBody Map<String, String> body) {

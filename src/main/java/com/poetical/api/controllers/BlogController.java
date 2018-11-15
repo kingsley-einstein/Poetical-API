@@ -39,6 +39,14 @@ public class BlogController {
         return blogs;
     }
 
+    @GetMapping(value = "personal/all/{page}")
+    @ResponseBody
+    public Page<Blog> getBlogsByAuthor(@PathVariable("page") Integer page, @RequestParam("user_id") Long id) {
+        Page<Blog> blogs =blogRepo.findByAuthor(userRepo.findById(id).get(), PageRequest.of(page, 12));
+
+        return blogs;
+    }
+
     @PostMapping(value = "/create")
     @ResponseBody
     public Blog createBlog(@RequestParam("user_id") Long id, @RequestBody Map<String, String> body) {
