@@ -83,7 +83,7 @@ public class PoemController {
         poemRepo.delete(poem);
     }
 
-    @PostMapping(value = "/find")
+    @GetMapping(value = "/find")
     @ResponseBody
     public Page<Poem> findAllByAuthor(@RequestParam("author") String author, @RequestParam("page") Integer page) {
         Page<Poem> poems = poemRepo.findByAuthor(userRepo.findByUsername(author), PageRequest.of(page, 15));
