@@ -20,7 +20,8 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-//import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -106,10 +107,11 @@ public class User implements java.io.Serializable {
     @OneToMany(mappedBy = "author")
     private List<MessageText> composedTexts;
 
-    
+    @JsonManagedReference
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "friends")
     private List<User> users = new ArrayList<>();
 
+    @JsonBackReference
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "users_friends", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "friend_id")})
     private List<User> friends = new ArrayList<>();
