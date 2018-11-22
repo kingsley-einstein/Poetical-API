@@ -41,4 +41,8 @@ public class FriendRequest implements java.io.Serializable {
     public String getTo() {
         return recepient.getUsername();
     }
+
+    public Long getSenderId() {
+        return recepient.getId();
+    }
 }
