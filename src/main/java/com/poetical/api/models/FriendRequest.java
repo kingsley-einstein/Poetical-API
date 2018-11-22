@@ -43,6 +43,6 @@ public class FriendRequest implements java.io.Serializable {
     }
 
     public Long getSenderId() {
-        return recepient.getId();
+        return from.getId();
     }
 }
