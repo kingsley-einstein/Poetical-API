@@ -15,8 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.poetical.api.models.FriendRequest;
 import com.poetical.api.models.User;
+import com.poetical.api.models.Friend;
 import com.poetical.api.repositories.FriendRequestRepository;
 import com.poetical.api.repositories.UserRepository;
+import com.poetical.api.repositories.FriendRepository;
 
 @RestController
 @RequestMapping(value = "/friends")
@@ -27,6 +29,9 @@ public class FriendController {
 
     @Autowired
     private FriendRequestRepository fReqRepo;
+
+    @Autowired
+    private FriendRepository fRepo;
 
     @GetMapping(value = "/send")
     public void sendRequest(@RequestParam("recepient_id") Long recepient_id, @RequestParam("sender_id") Long sender_id) {
@@ -54,6 +59,14 @@ public class FriendController {
         Page<FriendRequest> requests = fReqRepo.findByRecepient(userRepo.findById(id).get(), PageRequest.of(page, 25));
 
         return requests;
+    }
+
+    @GetMapping(value = "/all_friends/{page}")
+    @ResponseBody
+    public Page<Friend> getAllFriendsByUser(@PathVariable("page") Integer page, @RequestParam("user_id") Long id) {
+        Page<Friend> friends = fRepo.findByUser(userRepo.findById(id).get(), PageRequest.of(page, 20));
+
+        return friends;
     }
 
 }

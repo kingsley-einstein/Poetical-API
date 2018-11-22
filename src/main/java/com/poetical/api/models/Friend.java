@@ -19,4 +19,8 @@ public class Friend implements java.io.Serializable {
 
     @Column(name = "friend_id", length = 20, columnDefinition = "BIGINT")
     private User friends;
+
+    public User getFriend() {
+        return friends;
+    }
 }

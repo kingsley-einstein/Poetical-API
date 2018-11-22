@@ -29,6 +29,7 @@ C:\Users\HP\Documents\NetBeansProjects\Poetical-API\src\main\java\com\poetical\a
 C:\Users\HP\Documents\NetBeansProjects\Poetical-API\src\main\java\com\poetical\api\models\User.java
 C:\Users\HP\Documents\NetBeansProjects\Poetical-API\src\main\java\com\poetical\api\repositories\UserRepository.java
 C:\Users\HP\Documents\NetBeansProjects\Poetical-API\src\main\java\com\poetical\api\repositories\BlogRepository.java
+C:\Users\HP\Documents\NetBeansProjects\Poetical-API\src\main\java\com\poetical\api\repositories\FriendRepository.java
 C:\Users\HP\Documents\NetBeansProjects\Poetical-API\src\main\java\com\poetical\api\interceptors\Interceptors.java
 C:\Users\HP\Documents\NetBeansProjects\Poetical-API\src\main\java\com\poetical\api\repositories\MessageTextRepository.java
 C:\Users\HP\Documents\NetBeansProjects\Poetical-API\src\main\java\com\poetical\api\models\Friend.java

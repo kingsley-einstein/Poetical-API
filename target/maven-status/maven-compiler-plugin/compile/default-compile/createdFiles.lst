@@ -16,6 +16,7 @@ com\poetical\api\models\Blog.class
 com\poetical\api\repositories\MessageTextRepository.class
 com\poetical\api\exceptions\handlers\InvalidMimeTypeExceptionHandler.class
 com\poetical\api\exceptions\InvalidMimeTypeException.class
+com\poetical\api\repositories\FriendRepository.class
 com\poetical\api\repositories\AudioRepository.class
 com\poetical\api\repositories\RoleRepository.class
 com\poetical\api\repositories\PoemRepository.class
