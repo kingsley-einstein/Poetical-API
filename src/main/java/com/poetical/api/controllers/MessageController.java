@@ -67,7 +67,7 @@ public class MessageController {
     public Page<MessageText> sendAText(@RequestParam("author") String author_username, @RequestParam("message") Long message_id, @RequestParam("page") Integer page, @RequestBody Map<String, String> body) {
         MessageText messageText = new MessageText(body.get("text"), messageRepo.findById(message_id).get(), userRepo.findByUsername(author_username));
         Message message = messageRepo.findById(message_id).get();
-        message.setIsRead(true);
+        message.setIsRead(false);
         messageTextRepo.save(messageText);
         messageRepo.save(message);
 
@@ -94,5 +94,11 @@ public class MessageController {
         message.setIsRead(true);
 
         messageRepo.save(message);
+    }
+
+    @GetMapping(value = "/{id}")
+    @ResponseBody
+    public Page<MessageText> getTextsByMessage(@PathVariable("id") Long id, @RequestParam("page") Integer page) {
+        return messageTextRepo.findByMessage(messageRepo.findById(id).get(), PageRequest.of(page, 10));
     }
 }
