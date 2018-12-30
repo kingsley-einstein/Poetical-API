@@ -97,4 +97,9 @@ public class PoemController {
 
         likeRepo.save(like);
     }
+
+    @GetMapping(value = "/find/{id}")
+    public Poem findPoemById(@PathVariable("id") Long id) {
+        return poemRepo.findById(id).get();
+    }
 }

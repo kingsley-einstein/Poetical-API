@@ -86,6 +86,7 @@ public class User implements java.io.Serializable {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "owner") // => Indicates a One-To-One relationship
     private ProfilePic profilePic;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true) // => Indicates a One-To-Many relationship and is mapped to a column named 'author' 
     private List<Poem> poems;
 
@@ -182,6 +183,10 @@ public class User implements java.io.Serializable {
 
     public void setIsLogged(boolean isLogged) {
         this.isLogged = isLogged;
+    }
+
+    public boolean isLogged() {
+        return isLogged;
     }
 
     public String getUsername() {
