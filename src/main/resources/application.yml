@@ -6,6 +6,9 @@ spring:
         url: ${DATABASE_URL}
         username: ${USERNAME}
         password: ${PASSWORD}
+        testedWhileIdle: true
+        timeBetweenEvictionRunMillis: 3600000
+        validationQuery: SELECT 1
     jpa:
         properties:
             hibernate:
